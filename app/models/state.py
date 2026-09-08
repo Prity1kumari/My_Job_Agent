@@ -7,3 +7,7 @@ class AgentState(TypedDict):
     apply_url:str
     apply_method:str
     eligible:bool
+    website_content:str
+    eligible:bool
+    reason:str
+
