@@ -21,13 +21,34 @@ def read_page(url: str):
         print("TITLE:", page.title())
         print("URL:", page.url)
 
+        fields = page.locator(
+            "input, textarea, select"
+        ).evaluate_all(
+            """
+            elements => elements.map(
+                e => ({
+                    name: e.name,
+                    type: e.type,
+                    placeholder: e.placeholder
+                })
+            )
+            """
+        )
+
+        print("\n=== FORM FIELDS ===")
+        for field in fields:
+            print(field)
+
         page.screenshot(
             path="debug.png",
             full_page=True
         )
 
-        text = page.locator("body").inner_text()
+        content = page.locator("body").inner_text()
 
         browser.close()
 
-        return text
+        return {
+            "content": content,
+            "fields": fields
+        }
